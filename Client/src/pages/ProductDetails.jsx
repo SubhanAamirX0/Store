@@ -1,0 +1,102 @@
+import { CheckCircle2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import Button from "../components/Button.jsx";
+import ProductCard from "../components/ProductCard.jsx";
+import { useCart } from "../context/CartContext.jsx";
+import { getFinalPrice } from "../data/products.js";
+import { useCatalog } from "../hooks/useCatalog.js";
+import { formatCurrency } from "../utils/currency.js";
+
+export default function ProductDetails() {
+  const { slug } = useParams();
+  const { addItem } = useCart();
+  const { products } = useCatalog();
+  const product = products.find((item) => item.slug === slug) ?? products[0];
+  const [size, setSize] = useState(product.sizes[0]);
+  const [color, setColor] = useState(product.colors?.[0] ?? product.color);
+  const related = useMemo(() => products.filter((item) => item.category === product.category && item.id !== product.id).slice(0, 3), [product, products]);
+
+  useEffect(() => {
+    setSize(product.sizes[0]);
+    setColor(product.colors?.[0] ?? product.color);
+  }, [product]);
+
+  return (
+    <section className="mx-auto max-w-[1500px] px-4 py-10 sm:px-6 lg:px-8">
+      <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">
+        <div className="overflow-hidden border border-black bg-mist">
+          <img className="aspect-[3/4] h-full w-full object-cover" src={product.image} alt={product.name} decoding="async" />
+        </div>
+        <div className="space-y-7 border border-black bg-paper p-5 sm:p-8">
+          <Link className="text-xs font-black uppercase tracking-[0.22em] text-rust hover:text-ink" to="/shop">
+            Back to shop
+          </Link>
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.3em] text-rust">{product.category}</p>
+            <h1 className="mt-3 text-5xl font-black uppercase leading-none sm:text-7xl">{product.name}</h1>
+            <p className="mt-5 max-w-xl text-sm font-semibold uppercase leading-7 tracking-[0.08em] text-black/60">{product.description}</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-3xl font-black uppercase">{formatCurrency(getFinalPrice(product))}</span>
+            {product.discount ? <span className="text-lg text-black/40 line-through">{formatCurrency(product.price)}</span> : null}
+            {product.discount ? <span className="bg-rust px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-white">{product.discount}% off</span> : null}
+          </div>
+          <div>
+            <p className="mb-3 text-xs font-black uppercase tracking-[0.2em]">Choose size</p>
+            <div className="flex flex-wrap gap-2">
+              {product.sizes.map((item) => (
+                <button
+                  key={item}
+                  className={`focus-ring min-w-12 border px-4 py-3 text-xs font-black uppercase tracking-[0.16em] ${
+                    size === item ? "border-ink bg-ink text-paper" : "border-black bg-paper"
+                  }`}
+                  onClick={() => setSize(item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="mb-3 text-xs font-black uppercase tracking-[0.2em]">Choose color</p>
+            <div className="flex flex-wrap gap-2">
+              {(product.colors ?? [product.color]).map((item) => (
+                <button
+                  key={item}
+                  className={`focus-ring min-w-12 border px-4 py-3 text-xs font-black uppercase tracking-[0.16em] ${
+                    color === item ? "border-rust bg-rust text-white" : "border-black bg-paper"
+                  }`}
+                  onClick={() => setColor(item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+          <Button className="w-full py-4 uppercase tracking-[0.2em]" onClick={() => addItem(product, size, color)}>
+            Add to cart
+          </Button>
+          <div className="grid gap-3 border border-black bg-paper p-5 text-xs font-black uppercase tracking-[0.12em] text-black/65">
+            {[`Free shipping over ${formatCurrency(100)}`, "Easy exchanges within 14 days", "Limited seasonal catalog"].map((item) => (
+              <p key={item} className="flex items-center gap-2">
+                <CheckCircle2 className="text-rust" size={18} />
+                {item}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+      {related.length ? (
+        <div className="mt-16">
+          <h2 className="mb-6 border-b border-black pb-4 text-3xl font-black uppercase">Related pieces</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {related.map((item) => (
+              <ProductCard key={item.id} product={item} />
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </section>
+  );
+}

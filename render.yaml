@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: mithri-store
+    env: node
+    plan: free
+    buildCommand: cd Client && npm ci && npm run build && cd ../Server && npm ci
+    startCommand: cd Server && npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: VITE_API_URL
+        value: /api
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: MONGODB_URI
+        sync: false
