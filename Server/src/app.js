@@ -45,7 +45,12 @@ app.use("/api/admin", adminRoutes);
 //     res.sendFile(clientIndexPath);
 //   });
 // }
-
+app.get("/", (_req, res) => {
+  res.json({
+    message: "Mithri API is running 🚀",
+    status: "healthy"
+  });
+});
 app.use(notFound);
 app.use(errorHandler);
 
