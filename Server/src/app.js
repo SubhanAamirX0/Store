@@ -39,12 +39,12 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/discounts", discountRoutes);
 app.use("/api/admin", adminRoutes);
 
-if (env.nodeEnv === "production") {
-  app.use(express.static(clientDistPath));
-  app.get(/^\/(?!api).*/, (_req, res) => {
-    res.sendFile(clientIndexPath);
-  });
-}
+// if (env.nodeEnv === "production") {
+//   app.use(express.static(clientDistPath));
+//   app.get(/^\/(?!api).*/, (_req, res) => {
+//     res.sendFile(clientIndexPath);
+//   });
+// }
 
 app.use(notFound);
 app.use(errorHandler);
