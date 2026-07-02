@@ -32,5 +32,9 @@ export const env = {
   isAllowedOrigin: buildOriginMatcher(process.env.CLIENT_URL),
   mongoUri: process.env.MONGODB_URI ?? "mongodb://127.0.0.1:27017/mithri",
   jwtSecret: process.env.JWT_SECRET ?? "dev-secret-change-me",
-  jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? "7d"
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? "7d",
+  bootstrapAdminEmail: process.env.BOOTSTRAP_ADMIN_EMAIL ?? "admin@mithri.store",
+  bootstrapAdminPassword: process.env.BOOTSTRAP_ADMIN_PASSWORD ?? "Admin1234!",
+  bootstrapAdminName: process.env.BOOTSTRAP_ADMIN_NAME ?? "Mithri Admin",
+  bootstrapAdminEnabled: (process.env.BOOTSTRAP_ADMIN ?? "true") === "true"
 };

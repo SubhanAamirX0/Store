@@ -4,7 +4,7 @@ import Product from "./models/product.model.js";
 import User from "./models/user.model.js";
 
 const onlyIfEmpty = process.argv.includes("--only-empty");
-const demoAdmin = {
+export const demoAdmin = {
   name: "Mithri Admin",
   email: "admin@mithri.store",
   password: "Admin1234!",

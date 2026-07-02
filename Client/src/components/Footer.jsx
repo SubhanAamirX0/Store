@@ -19,9 +19,21 @@ export default function Footer() {
             <p className="text-xs font-black uppercase tracking-[0.26em] text-paper/45">{group[0]}</p>
             <div className="mt-4 grid gap-3">
               {group.slice(1).map((item) => (
-                <Link key={item} to={item === "Admin" ? "/admin" : item === "Cart" ? "/cart" : item === "Orders" ? "/orders" : "/shop"} className="text-xs font-black uppercase tracking-[0.18em] hover:text-rust">
-                  {item}
-                </Link>
+              <Link
+                key={item}
+                to={
+                  item === "Admin"
+                    ? "/admin-login"
+                    : item === "Cart"
+                      ? "/cart"
+                      : item === "Orders"
+                        ? "/orders"
+                        : "/shop"
+                }
+                className="text-xs font-black uppercase tracking-[0.18em] hover:text-rust"
+              >
+                {item}
+              </Link>
               ))}
             </div>
           </div>
