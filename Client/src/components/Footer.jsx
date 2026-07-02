@@ -1,5 +1,22 @@
 import { Link } from "react-router-dom";
 
+const footerLinks = {
+  Shop: {
+    "New Arrivals": "/shop?category=New%20Arrivals",
+    "Ready To Wear": "/shop?category=Women",
+    Accessories: "/shop?category=Men"
+  },
+  Account: {
+    Login: "/login",
+    Orders: "/orders",
+    Cart: "/cart"
+  },
+  Studio: {
+    "Drop Notes": "/shop",
+    Shipping: "/shop"
+  }
+};
+
 export default function Footer() {
   return (
     <footer className="border-t border-black bg-ink text-paper">
@@ -10,30 +27,14 @@ export default function Footer() {
             Limited merch drops, ready-to-wear staples, and catalog tools for a sharper clothing brand store.
           </p>
         </div>
-        {[
-          ["Shop", "New Arrivals", "Ready To Wear", "Accessories"],
-          ["Account", "Login", "Orders", "Cart"],
-          ["Studio", "Drop Notes", "Shipping", "Admin"]
-        ].map((group) => (
-          <div key={group[0]}>
-            <p className="text-xs font-black uppercase tracking-[0.26em] text-paper/45">{group[0]}</p>
+        {Object.entries(footerLinks).map(([section, links]) => (
+          <div key={section}>
+            <p className="text-xs font-black uppercase tracking-[0.26em] text-paper/45">{section}</p>
             <div className="mt-4 grid gap-3">
-              {group.slice(1).map((item) => (
-              <Link
-                key={item}
-                to={
-                  item === "Admin"
-                    ? "/admin-login"
-                    : item === "Cart"
-                      ? "/cart"
-                      : item === "Orders"
-                        ? "/orders"
-                        : "/shop"
-                }
-                className="text-xs font-black uppercase tracking-[0.18em] hover:text-rust"
-              >
-                {item}
-              </Link>
+              {Object.entries(links).map(([label, to]) => (
+                <Link key={label} to={to} className="text-xs font-black uppercase tracking-[0.18em] hover:text-rust">
+                  {label}
+                </Link>
               ))}
             </div>
           </div>

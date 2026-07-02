@@ -1,14 +1,21 @@
 import { SlidersHorizontal } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CategoryFilter from "../components/CategoryFilter.jsx";
 import ProductCard from "../components/ProductCard.jsx";
 import SkeletonCard from "../components/SkeletonCard.jsx";
 import { useCatalog } from "../hooks/useCatalog.js";
 
 export default function Shop() {
+  const [searchParams] = useSearchParams();
   const [category, setCategory] = useState("All");
   const [sort, setSort] = useState("featured");
   const { products, categories, loading, error } = useCatalog();
+
+  useEffect(() => {
+    const categoryParam = searchParams.get("category");
+    setCategory(categoryParam || "All");
+  }, [searchParams]);
 
   const filteredProducts = useMemo(() => {
     const list = category === "All" ? products : products.filter((product) => product.category === category);
