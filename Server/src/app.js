@@ -9,6 +9,7 @@ import adminRoutes from "./routes/admin.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 import categoryRoutes from "./routes/category.routes.js";
+import debugRoutes from "./routes/debug.routes.js";
 import discountRoutes from "./routes/discount.routes.js";
 import orderRoutes from "./routes/order.routes.js";
 import productRoutes from "./routes/product.routes.js";
@@ -20,9 +21,10 @@ const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const clientDistPath = path.resolve(__dirname, "../../Client/dist");
 const clientIndexPath = path.join(clientDistPath, "index.html");
+const shouldRedirectToClient = env.nodeEnv === "production" && Boolean(env.clientUrl);
 
 app.use(helmet());
-app.use(cors({ origin: env.clientUrl, credentials: true }));
+app.use(cors());
 app.use(express.json({ limit: "1mb" }));
 app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
 
@@ -38,19 +40,36 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/discounts", discountRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/debug", debugRoutes);
 
-// if (env.nodeEnv === "production") {
-//   app.use(express.static(clientDistPath));
-//   app.get(/^\/(?!api).*/, (_req, res) => {
-//     res.sendFile(clientIndexPath);
-//   });
-// }
-app.get("/", (_req, res) => {
+if (env.nodeEnv === "production") {
+  app.use(express.static(clientDistPath));
+
+  app.get(/^\/(?!api).*/, (req, res, next) => {
+    if (shouldRedirectToClient) {
+      const targetUrl = new URL(req.originalUrl, env.clientUrl);
+      res.redirect(302, targetUrl.toString());
+      return;
+    }
+
+    res.sendFile(clientIndexPath, (error) => {
+      if (error) next(error);
+    });
+  });
+}
+
+app.get("/", (req, res) => {
+  if (shouldRedirectToClient) {
+    res.redirect(302, env.clientUrl);
+    return;
+  }
+
   res.json({
-    message: "Mithri API is running 🚀",
+    message: "Mithri API is running",
     status: "healthy"
   });
 });
+
 app.use(notFound);
 app.use(errorHandler);
 

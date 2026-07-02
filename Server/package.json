@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "seed": "node src/seed.js",
+    "seed:empty": "node src/seed.js --only-empty"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

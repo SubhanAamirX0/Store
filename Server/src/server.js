@@ -5,9 +5,9 @@ import { env } from "./config/env.js";
 async function startServer() {
   await connectDatabase();
 
- app.listen(process.env.PORT || 5000, () => {
-  console.log(`Mithri API running`);
-});
+  app.listen(env.port, () => {
+    console.log(`Mithri API running on port ${env.port}`);
+  });
 }
 
 startServer().catch((error) => {
