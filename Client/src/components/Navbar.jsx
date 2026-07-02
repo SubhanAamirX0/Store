@@ -86,6 +86,14 @@ export default function Navbar() {
           <Link className="focus-ring p-2 hover:text-rust" to={isAuthenticated ? "/profile" : "/login"} aria-label="Profile">
             <UserRound size={20} />
           </Link>
+          {!isAuthenticated ? (
+            <Link
+              className="focus-ring hidden rounded-full border border-black px-3 py-2 text-[11px] font-black uppercase tracking-[0.16em] hover:bg-ink hover:text-paper lg:block"
+              to="/admin-login"
+            >
+              Admin
+            </Link>
+          ) : null}
         </div>
       </nav>
       {open ? (

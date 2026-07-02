@@ -1,8 +1,16 @@
 import { connectDatabase } from "./config/db.js";
 import Category from "./models/category.model.js";
 import Product from "./models/product.model.js";
+import User from "./models/user.model.js";
 
 const onlyIfEmpty = process.argv.includes("--only-empty");
+const demoAdmin = {
+  name: "Mithri Admin",
+  email: "admin@mithri.store",
+  password: "Admin1234!",
+  role: "admin",
+  isActive: true
+};
 
 const categories = [
   {
@@ -121,7 +129,15 @@ async function seed() {
     );
   }
 
-  console.log(`Seed complete: ${categoryDocs.size} categories and ${products.length} products upserted.`);
+  await User.findOneAndUpdate(
+    { email: demoAdmin.email },
+    demoAdmin,
+    { upsert: true, new: true, setDefaultsOnInsert: true, runValidators: true }
+  );
+
+  console.log(
+    `Seed complete: ${categoryDocs.size} categories, ${products.length} products, and 1 admin upserted.`
+  );
   process.exit(0);
 }
 

@@ -9,6 +9,7 @@ const Cart = lazy(() => import("./pages/Cart.jsx"));
 const Checkout = lazy(() => import("./pages/Checkout.jsx"));
 const Home = lazy(() => import("./pages/Home.jsx"));
 const Login = lazy(() => import("./pages/Login.jsx"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 const Orders = lazy(() => import("./pages/Orders.jsx"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails.jsx"));
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="products/:slug" element={<ProductDetails />} />
           <Route path="cart" element={<Cart />} />
           <Route path="login" element={<Login />} />
+          <Route path="admin-login" element={<AdminLogin />} />
           <Route path="register" element={<Register />} />
           <Route element={<ProtectedRoute />}>
             <Route path="checkout" element={<Checkout />} />
