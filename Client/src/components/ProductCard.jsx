@@ -18,8 +18,9 @@ function ProductCard({ product }) {
     const card = cardRef.current;
     if (!card) return undefined;
 
+    card.classList.add("is-visible");
+
     if (!("IntersectionObserver" in window)) {
-      card.classList.add("is-visible");
       return undefined;
     }
 
