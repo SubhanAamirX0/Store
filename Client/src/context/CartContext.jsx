@@ -3,10 +3,26 @@ import { getFinalPrice } from "../data/products.js";
 
 const CartContext = createContext(null);
 
+function readCartStorage() {
+  const value = localStorage.getItem("mithri_cart");
+
+  if (!value || value === "undefined" || value === "null") {
+    localStorage.removeItem("mithri_cart");
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    localStorage.removeItem("mithri_cart");
+    return [];
+  }
+}
+
 export function CartProvider({ children }) {
   const [items, setItems] = useState(() => {
-    const saved = localStorage.getItem("mithri_cart");
-    return saved ? JSON.parse(saved) : [];
+    return readCartStorage();
   });
 
   function persist(nextItems) {

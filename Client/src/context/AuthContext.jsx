@@ -3,11 +3,26 @@ import { apiRequest, clearToken, getToken, setToken } from "../utils/api.js";
 
 const AuthContext = createContext(null);
 
+function readJsonStorage(key) {
+  const value = localStorage.getItem(key);
+
+  if (!value || value === "undefined" || value === "null") {
+    localStorage.removeItem(key);
+    return null;
+  }
+
+  try {
+    return JSON.parse(value);
+  } catch {
+    localStorage.removeItem(key);
+    return null;
+  }
+}
+
 export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(Boolean(getToken()));
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem("mithri_user");
-    return saved ? JSON.parse(saved) : null;
+    return readJsonStorage("mithri_user");
   });
 
   useEffect(() => {
