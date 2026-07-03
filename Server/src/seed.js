@@ -14,23 +14,16 @@ export const demoAdmin = {
 
 const categories = [
   {
-    name: "New Arrivals",
-    slug: "new-arrivals",
-    description: "Fresh drops and newly added pieces.",
+    name: "Tees",
+    slug: "tees",
+    description: "Graphic and everyday tees.",
     image: "",
     isActive: true
   },
   {
-    name: "Women",
-    slug: "women",
-    description: "Everyday essentials and statement pieces.",
-    image: "",
-    isActive: true
-  },
-  {
-    name: "Men",
-    slug: "men",
-    description: "Clean staples and modern fits.",
+    name: "Accessories",
+    slug: "accessories",
+    description: "Caps and carry goods.",
     image: "",
     isActive: true
   }
@@ -38,49 +31,34 @@ const categories = [
 
 const products = [
   {
-    title: "Linen Everyday Set",
-    slug: "linen-everyday-set",
-    description: "A breathable matching set made for daily wear and easy styling.",
-    price: 129.0,
-    discountPrice: 99.0,
-    catalog: "Core",
-    stock: 18,
-    sizes: ["S", "M", "L"],
-    colors: ["Sand", "Olive"],
-    images: ["https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80"],
-    isFeatured: true,
-    isActive: true,
-    categorySlug: "new-arrivals"
-  },
-  {
-    title: "Soft Cotton Hoodie",
-    slug: "soft-cotton-hoodie",
-    description: "A relaxed hoodie with a clean finish and everyday comfort.",
-    price: 89.0,
-    discountPrice: 72.0,
+    title: "Signature Tee",
+    slug: "signature-tee",
+    description: "A clean everyday tee with a relaxed fit and bold print.",
+    price: 49.0,
+    discountPrice: 39.0,
     catalog: "Core",
     stock: 24,
-    sizes: ["M", "L", "XL"],
-    colors: ["Stone", "Black"],
-    images: ["https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80"],
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["Black", "White"],
+    images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=80"],
     isFeatured: true,
     isActive: true,
-    categorySlug: "men"
+    categorySlug: "tees"
   },
   {
-    title: "Minimal Wrap Dress",
-    slug: "minimal-wrap-dress",
-    description: "An elegant wrap dress with a soft drape and versatile fit.",
-    price: 149.0,
-    discountPrice: 119.0,
+    title: "Daily Hat",
+    slug: "daily-hat",
+    description: "A low-profile hat with clean embroidery and an easy fit.",
+    price: 28.0,
+    discountPrice: 0,
     catalog: "Core",
-    stock: 12,
-    sizes: ["XS", "S", "M", "L"],
-    colors: ["Ivory", "Rose"],
-    images: ["https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1200&q=80"],
-    isFeatured: false,
+    stock: 36,
+    sizes: ["One size"],
+    colors: ["Black", "Rust"],
+    images: ["https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&w=1200&q=80"],
+    isFeatured: true,
     isActive: true,
-    categorySlug: "women"
+    categorySlug: "accessories"
   }
 ];
 

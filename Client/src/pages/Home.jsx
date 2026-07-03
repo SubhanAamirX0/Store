@@ -72,7 +72,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
           <div className="absolute bottom-6 left-6 right-6">
             <p className="text-xs font-black uppercase tracking-[0.34em] text-paper/75">Collection</p>
-            <h2 className="mt-2 text-5xl font-black uppercase leading-none sm:text-6xl">Ready To Wear</h2>
+            <h2 className="mt-2 text-5xl font-black uppercase leading-none sm:text-6xl">Tees</h2>
           </div>
         </Link>
         <Link to="/shop" className="group relative min-h-[560px] overflow-hidden">

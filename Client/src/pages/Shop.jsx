@@ -32,7 +32,7 @@ export default function Shop() {
         <div>
           <p className="text-xs font-black uppercase tracking-[0.32em] text-rust">Catalog / Drop 01</p>
           <h1 className="mt-2 text-5xl font-black uppercase leading-none sm:text-7xl">Shop Mithri</h1>
-          <p className="mt-4 max-w-2xl text-sm font-semibold uppercase leading-6 tracking-[0.1em] text-black/60">Browse the latest ready-to-wear, fleece, outerwear, and accessories.</p>
+          <p className="mt-4 max-w-2xl text-sm font-semibold uppercase leading-6 tracking-[0.1em] text-black/60">Browse the latest tees and accessories.</p>
         </div>
         <label className="flex items-center gap-2 border border-black bg-paper px-4 py-3">
           <SlidersHorizontal size={18} />

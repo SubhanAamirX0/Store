@@ -6,9 +6,8 @@ import { useAuth } from "../context/AuthContext.jsx";
 import Button from "./Button.jsx";
 
 const shopLinks = [
-  { label: "New Arrivals", to: "/shop?category=New%20Arrivals", preload: () => import("../pages/Shop.jsx") },
-  { label: "Ready To Wear", to: "/shop?category=Women", preload: () => import("../pages/Shop.jsx") },
-  { label: "Accessories", to: "/shop?category=Men", preload: () => import("../pages/Shop.jsx") }
+  { label: "Tees", to: "/shop?category=Tees", preload: () => import("../pages/Shop.jsx") },
+  { label: "Accessories", to: "/shop?category=Accessories", preload: () => import("../pages/Shop.jsx") }
 ];
 
 const accountLinks = [

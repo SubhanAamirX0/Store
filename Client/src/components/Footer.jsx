@@ -2,9 +2,8 @@ import { Link } from "react-router-dom";
 
 const footerLinks = {
   Shop: {
-    "New Arrivals": "/shop?category=New%20Arrivals",
-    "Ready To Wear": "/shop?category=Women",
-    Accessories: "/shop?category=Men"
+    Tees: "/shop?category=Tees",
+    Accessories: "/shop?category=Accessories"
   },
   Account: {
     Login: "/login",
