@@ -51,8 +51,10 @@ export function normalizeProduct(product) {
     color: product.colors?.[0] ?? product.color ?? "Core",
     colors: product.colors?.length ? product.colors : [product.color ?? "Core"],
     sizes: product.sizes?.length ? product.sizes : ["One size"],
-    image: product.images?.[0] ?? product.image,
-    images: product.images?.length ? product.images : [product.image].filter(Boolean),
+    image: product.images?.[0] ?? product.image ?? product.hoverImage,
+    images: product.images?.length
+      ? product.images
+      : [product.image, product.hoverImage].filter(Boolean),
     stock: product.stock ?? 0
   };
 }

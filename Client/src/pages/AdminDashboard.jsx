@@ -246,7 +246,18 @@ export default function AdminDashboard() {
               <Input label="Stock" type="number" min="0" value={productForm.stock} onChange={(event) => updateProductField("stock", event.target.value)} />
               <Input label="Colors" value={productForm.colors} onChange={(event) => updateProductField("colors", event.target.value)} />
               <Input label="Sizes" value={productForm.sizes} onChange={(event) => updateProductField("sizes", event.target.value)} />
-              <Input label="Image URLs" value={productForm.images} onChange={(event) => updateProductField("images", event.target.value)} />
+              <label className="md:col-span-2 block">
+                <span className="mb-2 block text-sm font-semibold text-ink">Image URLs</span>
+                <textarea
+                  className="focus-ring min-h-28 w-full rounded-md border border-black/15 bg-white px-4 py-3 text-sm"
+                  placeholder="Paste multiple image links separated by commas"
+                  value={productForm.images}
+                  onChange={(event) => updateProductField("images", event.target.value)}
+                />
+                <p className="mt-2 text-xs font-semibold text-black/45">
+                  Add more than one photo by separating the links with commas. The first image becomes the cover.
+                </p>
+              </label>
             </div>
             <label className="mt-4 block">
               <span className="mb-2 block text-sm font-semibold text-ink">Description</span>

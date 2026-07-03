@@ -1,5 +1,5 @@
 import { ShoppingBag } from "lucide-react";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import { getFinalPrice } from "../data/products.js";
@@ -10,9 +10,14 @@ function ProductCard({ product }) {
   const { addItem } = useCart();
   const cardRef = useRef(null);
   const [added, setAdded] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
   const finalPrice = getFinalPrice(product);
-  const primaryImage = product.image;
-  const hoverImage = product.images?.[1] ?? product.hoverImage;
+  const images = useMemo(() => {
+    const source = product.images?.length
+      ? product.images
+      : [product.image, product.hoverImage].filter(Boolean);
+    return source.slice(0, 5);
+  }, [product.hoverImage, product.image, product.images]);
 
   useEffect(() => {
     const card = cardRef.current;
@@ -38,6 +43,22 @@ function ProductCard({ product }) {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (images.length <= 1) return undefined;
+
+    const timer = window.setInterval(() => {
+      setActiveImage((current) => (current + 1) % images.length);
+    }, 2800);
+
+    return () => window.clearInterval(timer);
+  }, [images.length]);
+
+  useEffect(() => {
+    if (activeImage >= images.length) {
+      setActiveImage(0);
+    }
+  }, [activeImage, images.length]);
+
   function handleAdd() {
     addItem(product);
     setAdded(true);
@@ -47,29 +68,38 @@ function ProductCard({ product }) {
   return (
     <article ref={cardRef} className="product-card group overflow-hidden border border-night/25 bg-paper shadow-soft">
       <Link to={`/products/${product.slug}`} className="relative block aspect-[3/4] overflow-hidden bg-mist">
-        <img
-          className={`h-full w-full object-cover transition duration-700 ${hoverImage ? "group-hover:scale-105 group-hover:opacity-0" : ""}`}
-          src={primaryImage}
-          alt={product.name}
-          loading="lazy"
-          decoding="async"
-        />
-        {hoverImage ? (
+        {images.map((image, index) => (
           <img
-            className="absolute inset-0 h-full w-full scale-105 object-cover opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100"
-            src={hoverImage}
-            alt=""
-            aria-hidden="true"
+            key={`${product.slug}-${image}-${index}`}
+            className={`absolute inset-0 h-full w-full object-cover transition duration-700 ${
+              index === activeImage ? "opacity-100 scale-100" : "opacity-0 scale-105"
+            }`}
+            src={image}
+            alt={index === 0 ? product.name : ""}
+            aria-hidden={index !== 0}
             loading="lazy"
             decoding="async"
           />
-        ) : null}
+        ))}
         <div className="absolute left-3 top-3 bg-paper px-2 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-ink">
           New
         </div>
         <div className="absolute inset-x-0 bottom-0 translate-y-full bg-ink px-4 py-3 text-center text-[11px] font-black uppercase tracking-[0.24em] text-paper transition duration-300 group-hover:translate-y-0">
           Quick View
         </div>
+        {images.length > 1 ? (
+          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-paper/80 px-2 py-1 backdrop-blur">
+            {images.map((image, index) => (
+              <span
+                key={`${product.slug}-dot-${index}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  index === activeImage ? "w-5 bg-ink" : "w-1.5 bg-ink/30"
+                }`}
+                aria-hidden="true"
+              />
+            ))}
+          </div>
+        ) : null}
       </Link>
       <div className="space-y-4 border-t border-night/15 p-4">
         <div>
