@@ -37,11 +37,11 @@ export default function ProductDetails() {
   return (
     <section className="mx-auto max-w-[1500px] px-4 py-10 sm:px-6 lg:px-8">
       <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">
-        <div className="overflow-hidden border border-black bg-mist">
+        <div className="relative overflow-hidden border border-black bg-mist">
           <div
             ref={galleryRef}
             className="no-scrollbar flex aspect-[3/4] overflow-x-auto scroll-smooth snap-x snap-mandatory"
-            style={{ touchAction: "pan-x" }}
+            style={{ touchAction: "pan-x", scrollSnapType: "x mandatory" }}
             onTouchStart={(event) => {
               swipeStartRef.current = event.touches[0].clientX;
             }}
@@ -71,6 +71,7 @@ export default function ProductDetails() {
               <img
                 key={`${product.slug}-${image}-${index}`}
                 className="h-full w-full flex-none snap-start object-cover"
+                style={{ minWidth: "100%" }}
                 src={image}
                 alt={index === 0 ? product.name : ""}
                 aria-hidden={index !== 0}
