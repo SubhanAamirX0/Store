@@ -9,6 +9,8 @@ import Button from "./Button.jsx";
 function ProductCard({ product }) {
   const { addItem } = useCart();
   const cardRef = useRef(null);
+  const touchStartRef = useRef(null);
+  const swipeLockRef = useRef(false);
   const [added, setAdded] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const finalPrice = getFinalPrice(product);
@@ -59,9 +61,69 @@ function ProductCard({ product }) {
     window.setTimeout(() => setAdded(false), 900);
   }
 
+  function showNextImage() {
+    setActiveImage((current) => (current + 1) % images.length);
+  }
+
+  function showPreviousImage() {
+    setActiveImage((current) => (current - 1 + images.length) % images.length);
+  }
+
+  function handleTouchStart(event) {
+    if (images.length <= 1) return;
+    touchStartRef.current = {
+      x: event.touches[0].clientX,
+      y: event.touches[0].clientY
+    };
+    swipeLockRef.current = false;
+  }
+
+  function handleTouchMove(event) {
+    if (!touchStartRef.current) return;
+    const dx = event.touches[0].clientX - touchStartRef.current.x;
+    const dy = event.touches[0].clientY - touchStartRef.current.y;
+    if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+      swipeLockRef.current = true;
+    }
+  }
+
+  function handleTouchEnd(event) {
+    if (!touchStartRef.current) return;
+    const dx = event.changedTouches[0].clientX - touchStartRef.current.x;
+    const dy = event.changedTouches[0].clientY - touchStartRef.current.y;
+    touchStartRef.current = null;
+
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) {
+      return;
+    }
+
+    event.preventDefault();
+    if (dx < 0) {
+      showNextImage();
+    } else {
+      showPreviousImage();
+    }
+  }
+
+  function handleClick(event) {
+    if (swipeLockRef.current) {
+      event.preventDefault();
+      event.stopPropagation();
+      swipeLockRef.current = false;
+    }
+  }
+
   return (
     <article ref={cardRef} className="product-card group overflow-hidden border border-night/25 bg-paper shadow-soft">
-      <Link to={`/products/${product.slug}`} className="relative block aspect-[3/4] overflow-hidden bg-mist">
+      <Link
+        to={`/products/${product.slug}`}
+        className="relative block aspect-[3/4] overflow-hidden bg-mist"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onClick={handleClick}
+        style={{ touchAction: "pan-y" }}
+      >
         {images.map((image, index) => (
           <img
             key={`${product.slug}-${image}-${index}`}
@@ -81,6 +143,19 @@ function ProductCard({ product }) {
         <div className="absolute inset-x-0 bottom-0 translate-y-full bg-ink px-4 py-3 text-center text-[11px] font-black uppercase tracking-[0.24em] text-paper transition duration-300 group-hover:translate-y-0">
           Quick View
         </div>
+        {images.length > 1 ? (
+          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-paper/80 px-2 py-1 backdrop-blur">
+            {images.map((_, index) => (
+              <span
+                key={`${product.slug}-dot-${index}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  index === activeImage ? "w-5 bg-ink" : "w-1.5 bg-ink/30"
+                }`}
+                aria-hidden="true"
+              />
+            ))}
+          </div>
+        ) : null}
       </Link>
       <div className="space-y-4 border-t border-night/15 p-4">
         <div>

@@ -163,6 +163,7 @@ export default function AdminDashboard() {
 
   function handleGalleryDrop(event, targetIndex = null) {
     event.preventDefault();
+    event.stopPropagation();
     const files = event.dataTransfer.files;
     if (files?.length) {
       appendImageFiles(files, targetIndex);
@@ -360,6 +361,7 @@ export default function AdminDashboard() {
                         onDragOver={(event) => event.preventDefault()}
                         onDrop={(event) => {
                           event.preventDefault();
+                          event.stopPropagation();
                           if (dragIndex !== null && dragIndex !== index) {
                             moveImageSlot(dragIndex, index);
                           } else {
