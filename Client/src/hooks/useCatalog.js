@@ -2,6 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { categories as fallbackCategories, normalizeProduct, products as fallbackProducts } from "../data/products.js";
 import { apiRequest } from "../utils/api.js";
 
+const coreCategories = ["All", "Tees", "Accessories"];
+
+function mergeCategories(apiCategories = []) {
+  const names = apiCategories.map((category) => category.name);
+  return Array.from(new Set([...coreCategories, ...names]));
+}
+
 export function useCatalog() {
   const [products, setProducts] = useState(fallbackProducts.map(normalizeProduct));
   const [categories, setCategories] = useState(fallbackCategories);
@@ -21,12 +28,7 @@ export function useCatalog() {
         if (!active) return;
         const normalizedProducts = productData.products.map(normalizeProduct);
         setProducts(normalizedProducts.length ? normalizedProducts : fallbackProducts.map(normalizeProduct));
-        setCategories([
-          "All",
-          ...(categoryData.categories.length
-            ? categoryData.categories.map((category) => category.name)
-            : fallbackCategories.filter((category) => category !== "All"))
-        ]);
+        setCategories(mergeCategories(categoryData.categories.length ? categoryData.categories : []));
       } catch (err) {
         if (active) setError(err.message);
       } finally {
