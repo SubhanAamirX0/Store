@@ -1,4 +1,4 @@
-import { PackagePlus, Percent, RefreshCw, Tags, Trash2 } from "lucide-react";
+import { GripVertical, ImagePlus, PackagePlus, Percent, RefreshCw, Tags, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import Button from "../components/Button.jsx";
 import Input from "../components/Input.jsx";
@@ -17,7 +17,7 @@ const emptyProduct = {
   stock: "",
   sizes: "S, M, L, XL",
   colors: "",
-  images: ""
+  images: [""]
 };
 
 const orderStatuses = ["pending", "paid", "processing", "shipped", "delivered", "cancelled"];
@@ -38,8 +38,17 @@ function toProductPayload(form) {
     stock: Number(form.stock || 0),
     sizes: form.sizes.split(",").map((item) => item.trim()).filter(Boolean),
     colors: form.colors.split(",").map((item) => item.trim()).filter(Boolean),
-    images: form.images.split(",").map((item) => item.trim()).filter(Boolean)
+    images: form.images.map((item) => item.trim()).filter(Boolean)
   };
+}
+
+function createImagePreview(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result ?? ""));
+    reader.onerror = () => reject(new Error("Could not read image file."));
+    reader.readAsDataURL(file);
+  });
 }
 
 function displayPrice(product) {
@@ -55,6 +64,7 @@ export default function AdminDashboard() {
   const [categoryForm, setCategoryForm] = useState({ name: "", slug: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [dragIndex, setDragIndex] = useState(null);
 
   const activeProducts = products.length ? products : fallbackProducts;
   const openOrders = orders.filter((order) => !["delivered", "cancelled"].includes(order.status)).length;
@@ -95,6 +105,69 @@ export default function AdminDashboard() {
       [field]: value,
       slug: field === "title" && !form.slug ? slugify(value) : form.slug
     }));
+  }
+
+  function updateImageField(index, value) {
+    setProductForm((form) => {
+      const images = [...form.images];
+      images[index] = value;
+      return { ...form, images };
+    });
+  }
+
+  function addImageSlot() {
+    setProductForm((form) => ({ ...form, images: [...form.images, ""] }));
+  }
+
+  function removeImageSlot(index) {
+    setProductForm((form) => {
+      const images = form.images.filter((_, itemIndex) => itemIndex !== index);
+      return { ...form, images: images.length ? images : [""] };
+    });
+  }
+
+  function moveImageSlot(fromIndex, toIndex) {
+    if (fromIndex === toIndex) return;
+
+    setProductForm((form) => {
+      const images = [...form.images];
+      const [moved] = images.splice(fromIndex, 1);
+      images.splice(toIndex, 0, moved);
+      return { ...form, images };
+    });
+  }
+
+  async function appendImageFiles(files, targetIndex = null) {
+    const items = Array.from(files).filter((file) => file.type.startsWith("image/"));
+    if (!items.length) return;
+
+    const previews = await Promise.all(items.map((file) => createImagePreview(file)));
+    setProductForm((form) => {
+      const images = [...form.images];
+
+      if (targetIndex === null) {
+        images.push(...previews);
+      } else {
+        const next = [...images];
+        let insertIndex = targetIndex;
+        previews.forEach((preview) => {
+          next[insertIndex] = preview;
+          insertIndex += 1;
+        });
+        return { ...form, images: next };
+      }
+
+      return { ...form, images };
+    });
+  }
+
+  function handleGalleryDrop(event, targetIndex = null) {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    if (files?.length) {
+      appendImageFiles(files, targetIndex);
+    }
+    setDragIndex(null);
   }
 
   async function createProduct(event) {
@@ -246,18 +319,87 @@ export default function AdminDashboard() {
               <Input label="Stock" type="number" min="0" value={productForm.stock} onChange={(event) => updateProductField("stock", event.target.value)} />
               <Input label="Colors" value={productForm.colors} onChange={(event) => updateProductField("colors", event.target.value)} />
               <Input label="Sizes" value={productForm.sizes} onChange={(event) => updateProductField("sizes", event.target.value)} />
-              <label className="md:col-span-2 block">
-                <span className="mb-2 block text-sm font-semibold text-ink">Image URLs</span>
-                <textarea
-                  className="focus-ring min-h-28 w-full rounded-md border border-black/15 bg-white px-4 py-3 text-sm"
-                  placeholder="Paste multiple image links separated by commas"
-                  value={productForm.images}
-                  onChange={(event) => updateProductField("images", event.target.value)}
-                />
-                <p className="mt-2 text-xs font-semibold text-black/45">
-                  Add more than one photo by separating the links with commas. The first image becomes the cover.
+              <div className="md:col-span-2 space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <span className="block text-sm font-semibold text-ink">Product photos</span>
+                    <p className="mt-1 text-xs font-semibold text-black/45">
+                      Drop image files here, paste image links, or reorder them with drag handles.
+                    </p>
+                  </div>
+                  <Button type="button" variant="secondary" onClick={addImageSlot}>
+                    <ImagePlus className="mr-2" size={17} />
+                    Add photo
+                  </Button>
+                </div>
+                <div
+                  className="rounded-lg border border-dashed border-cedar/40 bg-paper p-4"
+                  onDragOver={(event) => event.preventDefault()}
+                  onDrop={(event) => handleGalleryDrop(event)}
+                >
+                  <div className="grid gap-3">
+                    {productForm.images.map((image, index) => (
+                      <div
+                        key={`product-image-${index}`}
+                        className="grid gap-3 rounded-md border border-black/10 bg-white p-3 md:grid-cols-[88px_1fr_auto]"
+                        draggable
+                        onDragStart={() => setDragIndex(index)}
+                        onDragOver={(event) => event.preventDefault()}
+                        onDrop={(event) => {
+                          event.preventDefault();
+                          if (dragIndex !== null && dragIndex !== index) {
+                            moveImageSlot(dragIndex, index);
+                          } else {
+                            handleGalleryDrop(event, index);
+                          }
+                        }}
+                      >
+                        <div className="flex items-center justify-center overflow-hidden rounded-md border border-black/10 bg-mist">
+                          {image ? (
+                            <img src={image} alt="" className="h-20 w-full object-cover" />
+                          ) : (
+                            <div className="flex h-20 w-full items-center justify-center text-xs font-black uppercase tracking-[0.2em] text-black/30">
+                              Empty
+                            </div>
+                          )}
+                        </div>
+                        <label className="block">
+                          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-cedar">Photo link</span>
+                          <Input
+                            label=""
+                            placeholder="Paste a URL or drop an image file"
+                            value={image}
+                            onChange={(event) => updateImageField(index, event.target.value)}
+                            onDrop={(event) => handleGalleryDrop(event, index)}
+                            onDragOver={(event) => event.preventDefault()}
+                          />
+                        </label>
+                        <div className="flex items-start gap-2">
+                          <button
+                            type="button"
+                            className="focus-ring mt-8 inline-flex h-11 w-11 items-center justify-center rounded-md border border-black/15 bg-white text-ink hover:border-cedar hover:text-cedar"
+                            aria-label={`Drag photo ${index + 1}`}
+                            title="Drag to reorder"
+                          >
+                            <GripVertical size={18} />
+                          </button>
+                          <button
+                            type="button"
+                            className="focus-ring mt-8 inline-flex h-11 w-11 items-center justify-center rounded-md border border-black/15 bg-white text-rust hover:border-rust hover:text-rust"
+                            aria-label={`Remove photo ${index + 1}`}
+                            onClick={() => removeImageSlot(index)}
+                          >
+                            <X size={18} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <p className="text-xs font-semibold text-black/45">
+                  The first image is used as the cover. You can add as many as you want.
                 </p>
-              </label>
+              </div>
             </div>
             <label className="mt-4 block">
               <span className="mb-2 block text-sm font-semibold text-ink">Description</span>
