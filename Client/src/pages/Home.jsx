@@ -41,7 +41,11 @@ export default function Home() {
               <p className="max-w-xl text-base font-semibold uppercase leading-7 tracking-[0.12em] text-paper/86">
                 Clothing-brand merch with a sharper drop system, editorial imagery, and streetwear-ready staples.
               </p>
-              <Button as={Link} to="/shop" className="w-fit bg-paper text-ink hover:bg-rust hover:text-white">
+              <Button
+                as={Link}
+                to="/shop"
+                className="w-fit !bg-paper !text-ink hover:!bg-rust hover:!text-white"
+              >
                 Shop the drop <ArrowRight className="ml-2" size={17} />
               </Button>
             </div>
