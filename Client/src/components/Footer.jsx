@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Footer() {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const ordersPath = user?.role === "admin" ? "/admin/orders" : "/orders";
+  const loginLink = isAuthenticated ? (user?.role === "admin" ? "/admin" : "/profile") : "/login";
+  const loginLabel = isAuthenticated ? "Account" : "Login";
 
   const footerLinks = {
     Shop: {
@@ -11,7 +13,7 @@ export default function Footer() {
       Accessories: "/shop?category=Accessories"
     },
     Account: {
-      Login: "/login",
+      [loginLabel]: loginLink,
       Orders: ordersPath,
       Cart: "/cart"
     },
@@ -20,6 +22,13 @@ export default function Footer() {
       Shipping: "/shop"
     }
   };
+
+  if (user?.role === "admin") {
+    footerLinks.Studio = {
+      ...footerLinks.Studio,
+      "Admin dashboard": "/admin"
+    };
+  }
 
   return (
     <footer className="border-t border-night/35 bg-ink text-paper">
