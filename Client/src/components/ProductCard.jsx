@@ -48,6 +48,11 @@ function ProductCard({ product }) {
   useEffect(() => {
     if (images.length <= 1) return undefined;
 
+    images.forEach((image) => {
+      const preload = new Image();
+      preload.src = image;
+    });
+
     const timer = window.setInterval(() => {
       setActiveImage((current) => (current + 1) % images.length);
     }, 3200);
@@ -127,7 +132,7 @@ function ProductCard({ product }) {
         {images.map((image, index) => (
           <img
             key={`${product.slug}-${image}-${index}`}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out ${
+            className={`product-card-photo absolute inset-0 h-full w-full object-cover ${
               index === activeImage ? "opacity-100" : "opacity-0"
             }`}
             src={image}
