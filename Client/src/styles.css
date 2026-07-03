@@ -100,28 +100,6 @@ textarea {
   transform: scale(1.08);
 }
 
-.product-card-gallery {
-  opacity: 0;
-  transform: scale(1.04);
-  animation-name: productCardGallery;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-fill-mode: both;
-}
-
-@keyframes productCardGallery {
-  0%,
-  12% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  25%,
-  100% {
-    opacity: 0;
-    transform: scale(1.04);
-  }
-}
-
 .skeleton-shimmer::after {
   animation: shimmer 1.35s infinite;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);

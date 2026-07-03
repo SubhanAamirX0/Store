@@ -10,6 +10,7 @@ function ProductCard({ product }) {
   const { addItem } = useCart();
   const cardRef = useRef(null);
   const [added, setAdded] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
   const finalPrice = getFinalPrice(product);
   const images = useMemo(() => {
     const source = product.images?.length
@@ -42,6 +43,16 @@ function ProductCard({ product }) {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (images.length <= 1) return undefined;
+
+    const timer = window.setInterval(() => {
+      setActiveImage((current) => (current + 1) % images.length);
+    }, 3200);
+
+    return () => window.clearInterval(timer);
+  }, [images.length]);
+
   function handleAdd() {
     addItem(product);
     setAdded(true);
@@ -54,11 +65,9 @@ function ProductCard({ product }) {
         {images.map((image, index) => (
           <img
             key={`${product.slug}-${image}-${index}`}
-            className="product-card-gallery absolute inset-0 h-full w-full object-cover"
-            style={{
-              animationDelay: `${index * 2.8}s`,
-              animationDuration: `${images.length * 2.8}s`
-            }}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out ${
+              index === activeImage ? "opacity-100" : "opacity-0"
+            }`}
             src={image}
             alt={index === 0 ? product.name : ""}
             aria-hidden={index !== 0}
