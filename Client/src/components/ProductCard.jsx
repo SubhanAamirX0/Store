@@ -10,7 +10,6 @@ function ProductCard({ product }) {
   const { addItem } = useCart();
   const cardRef = useRef(null);
   const [added, setAdded] = useState(false);
-  const [activeImage, setActiveImage] = useState(0);
   const finalPrice = getFinalPrice(product);
   const images = useMemo(() => {
     const source = product.images?.length
@@ -43,22 +42,6 @@ function ProductCard({ product }) {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (images.length <= 1) return undefined;
-
-    const timer = window.setInterval(() => {
-      setActiveImage((current) => (current + 1) % images.length);
-    }, 2800);
-
-    return () => window.clearInterval(timer);
-  }, [images.length]);
-
-  useEffect(() => {
-    if (activeImage >= images.length) {
-      setActiveImage(0);
-    }
-  }, [activeImage, images.length]);
-
   function handleAdd() {
     addItem(product);
     setAdded(true);
@@ -71,9 +54,11 @@ function ProductCard({ product }) {
         {images.map((image, index) => (
           <img
             key={`${product.slug}-${image}-${index}`}
-            className={`absolute inset-0 h-full w-full object-cover transition duration-700 ${
-              index === activeImage ? "opacity-100 scale-100" : "opacity-0 scale-105"
-            }`}
+            className="product-card-gallery absolute inset-0 h-full w-full object-cover"
+            style={{
+              animationDelay: `${index * 2.8}s`,
+              animationDuration: `${images.length * 2.8}s`
+            }}
             src={image}
             alt={index === 0 ? product.name : ""}
             aria-hidden={index !== 0}
@@ -87,19 +72,6 @@ function ProductCard({ product }) {
         <div className="absolute inset-x-0 bottom-0 translate-y-full bg-ink px-4 py-3 text-center text-[11px] font-black uppercase tracking-[0.24em] text-paper transition duration-300 group-hover:translate-y-0">
           Quick View
         </div>
-        {images.length > 1 ? (
-          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-paper/80 px-2 py-1 backdrop-blur">
-            {images.map((image, index) => (
-              <span
-                key={`${product.slug}-dot-${index}`}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  index === activeImage ? "w-5 bg-ink" : "w-1.5 bg-ink/30"
-                }`}
-                aria-hidden="true"
-              />
-            ))}
-          </div>
-        ) : null}
       </Link>
       <div className="space-y-4 border-t border-night/15 p-4">
         <div>
