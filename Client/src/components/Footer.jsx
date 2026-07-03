@@ -1,22 +1,26 @@
 import { Link } from "react-router-dom";
-
-const footerLinks = {
-  Shop: {
-    Tees: "/shop?category=Tees",
-    Accessories: "/shop?category=Accessories"
-  },
-  Account: {
-    Login: "/login",
-    Orders: "/orders",
-    Cart: "/cart"
-  },
-  Studio: {
-    "Drop Notes": "/shop",
-    Shipping: "/shop"
-  }
-};
+import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Footer() {
+  const { user } = useAuth();
+  const ordersPath = user?.role === "admin" ? "/admin/orders" : "/orders";
+
+  const footerLinks = {
+    Shop: {
+      Tees: "/shop?category=Tees",
+      Accessories: "/shop?category=Accessories"
+    },
+    Account: {
+      Login: "/login",
+      Orders: ordersPath,
+      Cart: "/cart"
+    },
+    Studio: {
+      "Drop Notes": "/shop",
+      Shipping: "/shop"
+    }
+  };
+
   return (
     <footer className="border-t border-night/35 bg-ink text-paper">
       <div className="mx-auto grid max-w-[1500px] gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-8">

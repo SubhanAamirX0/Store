@@ -5,6 +5,7 @@ import Loader from "./components/Loader.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard.jsx"));
+const AdminOrders = lazy(() => import("./pages/AdminOrders.jsx"));
 const Cart = lazy(() => import("./pages/Cart.jsx"));
 const Checkout = lazy(() => import("./pages/Checkout.jsx"));
 const Home = lazy(() => import("./pages/Home.jsx"));
@@ -44,6 +45,7 @@ export default function App() {
           </Route>
           <Route element={<ProtectedRoute adminOnly />}>
             <Route path="admin" element={<AdminDashboard />} />
+            <Route path="admin/orders" element={<AdminOrders />} />
           </Route>
           <Route path="home" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFound />} />
