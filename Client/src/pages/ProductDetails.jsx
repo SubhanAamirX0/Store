@@ -1,4 +1,4 @@
-import { CheckCircle2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Button from "../components/Button.jsx";
@@ -13,20 +13,33 @@ export default function ProductDetails() {
   const { addItem } = useCart();
   const { products } = useCatalog();
   const swipeStartRef = useRef(null);
+  const galleryRef = useRef(null);
   const product = products.find((item) => item.slug === slug) ?? products[0];
   const [size, setSize] = useState(product.sizes[0]);
   const [color, setColor] = useState(product.colors?.[0] ?? product.color);
+  const [activeImage, setActiveImage] = useState(0);
   const images = useMemo(
     () => (product.images?.length ? product.images : [product.image, product.hoverImage].filter(Boolean)),
     [product]
   );
   const related = useMemo(() => products.filter((item) => item.category === product.category && item.id !== product.id).slice(0, 3), [product, products]);
 
+  function scrollToImage(index) {
+    const container = galleryRef.current;
+    if (!container || !images.length) return;
+
+    const nextIndex = (index + images.length) % images.length;
+    const width = container.clientWidth || 1;
+    container.scrollTo({ left: nextIndex * width, behavior: "smooth" });
+    setActiveImage(nextIndex);
+  }
+
   return (
     <section className="mx-auto max-w-[1500px] px-4 py-10 sm:px-6 lg:px-8">
       <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">
         <div className="overflow-hidden border border-black bg-mist">
           <div
+            ref={galleryRef}
             className="no-scrollbar flex aspect-[3/4] overflow-x-auto scroll-smooth snap-x snap-mandatory"
             style={{ touchAction: "pan-x" }}
             onTouchStart={(event) => {
@@ -45,6 +58,13 @@ export default function ProductDetails() {
               const currentIndex = Math.round(container.scrollLeft / width);
               const nextIndex = delta < 0 ? Math.min(currentIndex + 1, images.length - 1) : Math.max(currentIndex - 1, 0);
               container.scrollTo({ left: nextIndex * width, behavior: "smooth" });
+              setActiveImage(nextIndex);
+            }}
+            onScroll={(event) => {
+              const container = event.currentTarget;
+              const width = container.clientWidth || 1;
+              const nextIndex = Math.round(container.scrollLeft / width);
+              if (nextIndex !== activeImage) setActiveImage(nextIndex);
             }}
           >
             {images.map((image, index) => (
@@ -59,6 +79,26 @@ export default function ProductDetails() {
               />
             ))}
           </div>
+          {images.length > 1 ? (
+            <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-3">
+              <button
+                type="button"
+                className="pointer-events-auto focus-ring inline-flex h-10 w-10 items-center justify-center rounded-full bg-paper/85 text-ink shadow-sm backdrop-blur hover:bg-paper"
+                aria-label="Previous image"
+                onClick={() => scrollToImage(activeImage - 1)}
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                type="button"
+                className="pointer-events-auto focus-ring inline-flex h-10 w-10 items-center justify-center rounded-full bg-paper/85 text-ink shadow-sm backdrop-blur hover:bg-paper"
+                aria-label="Next image"
+                onClick={() => scrollToImage(activeImage + 1)}
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          ) : null}
         </div>
         <div className="space-y-7 border border-black bg-paper p-5 sm:p-8">
           <Link className="text-xs font-black uppercase tracking-[0.22em] text-rust hover:text-ink" to="/shop">
