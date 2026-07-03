@@ -296,6 +296,20 @@ export default function AdminDashboard() {
               <PackagePlus className="text-cedar" />
               <h2 className="text-xl font-black">Add product</h2>
             </div>
+            <div className="mb-5 rounded-xl border border-dashed border-cedar/40 bg-paper/80 p-4">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-black uppercase tracking-[0.22em] text-cedar">Cover photo / Gallery</p>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-black/45">
+                    Add multiple photos, drag them to reorder, or drop files directly into the gallery.
+                  </p>
+                </div>
+                <Button type="button" variant="secondary" onClick={addImageSlot}>
+                  <ImagePlus className="mr-2" size={17} />
+                  Add photo
+                </Button>
+              </div>
+            </div>
             <div className="grid gap-4 md:grid-cols-2">
               <Input label="Product title" required value={productForm.title} onChange={(event) => updateProductField("title", event.target.value)} />
               <Input label="Slug" required value={productForm.slug} onChange={(event) => updateProductField("slug", event.target.value)} />
@@ -319,24 +333,23 @@ export default function AdminDashboard() {
               <Input label="Stock" type="number" min="0" value={productForm.stock} onChange={(event) => updateProductField("stock", event.target.value)} />
               <Input label="Colors" value={productForm.colors} onChange={(event) => updateProductField("colors", event.target.value)} />
               <Input label="Sizes" value={productForm.sizes} onChange={(event) => updateProductField("sizes", event.target.value)} />
-              <div className="md:col-span-2 space-y-3">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <span className="block text-sm font-semibold text-ink">Product photos</span>
-                    <p className="mt-1 text-xs font-semibold text-black/45">
-                      Drop image files here, paste image links, or reorder them with drag handles.
-                    </p>
-                  </div>
-                  <Button type="button" variant="secondary" onClick={addImageSlot}>
-                    <ImagePlus className="mr-2" size={17} />
-                    Add photo
-                  </Button>
-                </div>
+              <div className="md:col-span-2">
                 <div
-                  className="rounded-lg border border-dashed border-cedar/40 bg-paper p-4"
+                  className="rounded-xl border border-dashed border-cedar/40 bg-paper p-4"
                   onDragOver={(event) => event.preventDefault()}
                   onDrop={(event) => handleGalleryDrop(event)}
                 >
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <div>
+                      <span className="block text-sm font-black uppercase tracking-[0.22em] text-ink">Image gallery</span>
+                      <p className="mt-1 text-xs font-semibold text-black/45">
+                        Drop image files here or paste a link into any slot below.
+                      </p>
+                    </div>
+                    <span className="rounded-full bg-ink px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-paper">
+                      First image = cover
+                    </span>
+                  </div>
                   <div className="grid gap-3">
                     {productForm.images.map((image, index) => (
                       <div
@@ -396,9 +409,6 @@ export default function AdminDashboard() {
                     ))}
                   </div>
                 </div>
-                <p className="text-xs font-semibold text-black/45">
-                  The first image is used as the cover. You can add as many as you want.
-                </p>
               </div>
             </div>
             <label className="mt-4 block">
