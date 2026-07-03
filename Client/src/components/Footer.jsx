@@ -18,7 +18,7 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <footer className="border-t border-night/40 bg-ink text-paper">
+    <footer className="border-t border-night/35 bg-ink text-paper">
       <div className="mx-auto grid max-w-[1500px] gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-8">
         <div>
           <p className="text-5xl font-black uppercase tracking-[0.22em]">Mithri</p>
@@ -28,7 +28,7 @@ export default function Footer() {
         </div>
         {Object.entries(footerLinks).map(([section, links]) => (
           <div key={section}>
-            <p className="text-xs font-black uppercase tracking-[0.26em] text-paper/45">{section}</p>
+            <p className="text-xs font-black uppercase tracking-[0.26em] text-paper/55">{section}</p>
             <div className="mt-4 grid gap-3">
               {Object.entries(links).map(([label, to]) => (
                 <Link key={label} to={to} className="text-xs font-black uppercase tracking-[0.18em] hover:text-rust">

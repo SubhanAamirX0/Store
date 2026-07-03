@@ -45,7 +45,7 @@ function ProductCard({ product }) {
   }
 
   return (
-    <article ref={cardRef} className="product-card group overflow-hidden border border-night/30 bg-paper shadow-soft">
+    <article ref={cardRef} className="product-card group overflow-hidden border border-night/25 bg-paper shadow-soft">
       <Link to={`/products/${product.slug}`} className="relative block aspect-[3/4] overflow-hidden bg-mist">
         <img
           className={`h-full w-full object-cover transition duration-700 ${hoverImage ? "group-hover:scale-105 group-hover:opacity-0" : ""}`}
@@ -71,7 +71,7 @@ function ProductCard({ product }) {
           Quick View
         </div>
       </Link>
-      <div className="space-y-4 border-t border-night/20 p-4">
+      <div className="space-y-4 border-t border-night/15 p-4">
         <div>
           <p className="text-[10px] font-black uppercase tracking-[0.24em] text-rust">{product.category}</p>
           <Link to={`/products/${product.slug}`} className="mt-2 block text-sm font-black uppercase tracking-[0.12em] hover:text-rust">

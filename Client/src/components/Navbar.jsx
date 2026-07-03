@@ -32,8 +32,8 @@ export default function Navbar() {
   const mobileLinks = [...shopLinks, ...visibleAccountLinks];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-night/40 bg-paper/95 backdrop-blur">
-      <div className="border-b border-night/40 bg-ink px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.18em] text-paper sm:text-[11px] sm:tracking-[0.24em]">
+    <header className="sticky top-0 z-40 border-b border-night/35 bg-paper/92 backdrop-blur">
+      <div className="border-b border-night/35 bg-ink px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.18em] text-paper sm:text-[11px] sm:tracking-[0.24em]">
         New Drop Live / Free shipping over Rs 4000 / Limited quantities
       </div>
       <nav className="mx-auto grid max-w-[1500px] grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
@@ -62,7 +62,7 @@ export default function Navbar() {
 
         <div className="flex items-center justify-end gap-1 sm:gap-2">
           {visibleAccountLinks.length ? (
-            <div className="mr-2 hidden items-center gap-1 border-r border-night/20 pr-3 xl:flex">
+            <div className="mr-2 hidden items-center gap-1 border-r border-night/15 pr-3 xl:flex">
               {visibleAccountLinks.map((link) => (
                 <NavLink key={link.label} className={navClass} to={link.to}>
                   {link.label}
@@ -87,7 +87,7 @@ export default function Navbar() {
         </div>
       </nav>
       {open ? (
-        <div className="border-t border-night/25 bg-paper px-4 py-3 lg:hidden">
+        <div className="border-t border-night/20 bg-paper px-4 py-3 lg:hidden">
           <div className="grid gap-1">
             {mobileLinks.map((link) => (
               <NavLink

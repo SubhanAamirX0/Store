@@ -4,15 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#6d4c3d",
-        paper: "#ede0d4",
-        mist: "#e6ccb2",
-        cedar: "#7f5539",
-        rust: "#9c6644",
-        night: "#b08968"
+        ink: "#253237",
+        paper: "#e0fbfc",
+        mist: "#c2dfe3",
+        cedar: "#5c6b73",
+        rust: "#9db4c0",
+        night: "#253237"
       },
       boxShadow: {
-        soft: "0 24px 70px rgba(127, 85, 57, 0.18)"
+        soft: "0 24px 70px rgba(37, 50, 55, 0.16)"
       }
     }
   },

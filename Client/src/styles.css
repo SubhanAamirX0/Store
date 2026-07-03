@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  background: #ede0d4;
-  color: #6d4c3d;
+  background: #e0fbfc;
+  color: #253237;
   font-family: Inter, Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -35,7 +35,7 @@ textarea {
 
 .button-motion:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 0 rgba(127, 85, 57, 0.16);
+  box-shadow: 0 14px 0 rgba(37, 50, 55, 0.16);
 }
 
 .button-motion:active {
@@ -93,7 +93,7 @@ textarea {
 
 .skeleton-shimmer::after {
   animation: shimmer 1.35s infinite;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.66), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
   content: "";
   inset: 0;
   position: absolute;
