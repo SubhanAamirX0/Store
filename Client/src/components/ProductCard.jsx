@@ -132,9 +132,14 @@ function ProductCard({ product }) {
         {images.map((image, index) => (
           <img
             key={`${product.slug}-${image}-${index}`}
-            className={`product-card-photo absolute inset-0 h-full w-full object-cover ${
-              index === activeImage ? "opacity-100" : "opacity-0"
-            }`}
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{
+              opacity: index === activeImage ? 1 : 0,
+              transform: index === activeImage ? "scale(1)" : "scale(1.02)",
+              transition: "opacity 900ms cubic-bezier(0.22, 1, 0.36, 1), transform 900ms cubic-bezier(0.22, 1, 0.36, 1)",
+              willChange: "opacity, transform",
+              backfaceVisibility: "hidden"
+            }}
             src={image}
             alt={index === 0 ? product.name : ""}
             aria-hidden={index !== 0}
@@ -148,19 +153,6 @@ function ProductCard({ product }) {
         <div className="absolute inset-x-0 bottom-0 translate-y-full bg-ink px-4 py-3 text-center text-[11px] font-black uppercase tracking-[0.24em] text-paper transition duration-300 group-hover:translate-y-0">
           Quick View
         </div>
-        {images.length > 1 ? (
-          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-paper/80 px-2 py-1 backdrop-blur">
-            {images.map((_, index) => (
-              <span
-                key={`${product.slug}-dot-${index}`}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  index === activeImage ? "w-5 bg-ink" : "w-1.5 bg-ink/30"
-                }`}
-                aria-hidden="true"
-              />
-            ))}
-          </div>
-        ) : null}
       </Link>
       <div className="space-y-4 border-t border-night/15 p-4">
         <div>

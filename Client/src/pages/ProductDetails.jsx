@@ -1,5 +1,5 @@
 import { CheckCircle2 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Button from "../components/Button.jsx";
 import ProductCard from "../components/ProductCard.jsx";
@@ -12,61 +12,52 @@ export default function ProductDetails() {
   const { slug } = useParams();
   const { addItem } = useCart();
   const { products } = useCatalog();
+  const swipeStartRef = useRef(null);
   const product = products.find((item) => item.slug === slug) ?? products[0];
   const [size, setSize] = useState(product.sizes[0]);
   const [color, setColor] = useState(product.colors?.[0] ?? product.color);
-  const [activeImage, setActiveImage] = useState(0);
   const images = useMemo(
     () => (product.images?.length ? product.images : [product.image, product.hoverImage].filter(Boolean)),
     [product]
   );
   const related = useMemo(() => products.filter((item) => item.category === product.category && item.id !== product.id).slice(0, 3), [product, products]);
 
-  useEffect(() => {
-    setSize(product.sizes[0]);
-    setColor(product.colors?.[0] ?? product.color);
-    setActiveImage(0);
-  }, [product]);
-
-  useEffect(() => {
-    if (images.length <= 1) return undefined;
-
-    const timer = window.setInterval(() => {
-      setActiveImage((current) => (current + 1) % images.length);
-    }, 3200);
-
-    return () => window.clearInterval(timer);
-  }, [images.length]);
-
   return (
     <section className="mx-auto max-w-[1500px] px-4 py-10 sm:px-6 lg:px-8">
       <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">
         <div className="overflow-hidden border border-black bg-mist">
-          <div className="relative aspect-[3/4] overflow-hidden">
-            <div className="no-scrollbar flex h-full w-full snap-x snap-mandatory overflow-x-auto scroll-smooth">
-              {images.map((image, index) => (
-                <img
-                  key={`${product.slug}-${image}-${index}`}
-                  className="h-full w-full flex-none snap-center object-cover"
-                  src={image}
-                  alt={index === 0 ? product.name : ""}
-                  aria-hidden={index !== 0}
-                  decoding="async"
-                />
-              ))}
-            </div>
-            {images.length > 1 ? (
-              <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-ink/55 px-3 py-2 backdrop-blur">
-                {images.map((image, index) => (
-                  <button
-                    key={`${product.slug}-control-${index}`}
-                    className={`h-2 rounded-full transition-all ${index === activeImage ? "w-6 bg-paper" : "w-2 bg-paper/40"}`}
-                    aria-label={`View image ${index + 1}`}
-                    onClick={() => setActiveImage(index)}
-                  />
-                ))}
-              </div>
-            ) : null}
+          <div
+            className="no-scrollbar flex aspect-[3/4] overflow-x-auto scroll-smooth snap-x snap-mandatory"
+            style={{ touchAction: "pan-x" }}
+            onTouchStart={(event) => {
+              swipeStartRef.current = event.touches[0].clientX;
+            }}
+            onTouchEnd={(event) => {
+              if (swipeStartRef.current === null) return;
+              const endX = event.changedTouches[0].clientX;
+              const delta = endX - swipeStartRef.current;
+              swipeStartRef.current = null;
+
+              if (Math.abs(delta) < 40) return;
+
+              const container = event.currentTarget;
+              const width = container.clientWidth || 1;
+              const currentIndex = Math.round(container.scrollLeft / width);
+              const nextIndex = delta < 0 ? Math.min(currentIndex + 1, images.length - 1) : Math.max(currentIndex - 1, 0);
+              container.scrollTo({ left: nextIndex * width, behavior: "smooth" });
+            }}
+          >
+            {images.map((image, index) => (
+              <img
+                key={`${product.slug}-${image}-${index}`}
+                className="h-full w-full flex-none snap-start object-cover"
+                src={image}
+                alt={index === 0 ? product.name : ""}
+                aria-hidden={index !== 0}
+                decoding="async"
+                draggable="false"
+              />
+            ))}
           </div>
         </div>
         <div className="space-y-7 border border-black bg-paper p-5 sm:p-8">
