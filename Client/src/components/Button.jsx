@@ -1,8 +1,8 @@
 export default function Button({ as: Component = "button", className = "", variant = "primary", ...props }) {
   const variants = {
-    primary: "bg-ink text-white hover:bg-cedar",
-    secondary: "border border-black/15 bg-white text-ink hover:border-cedar hover:text-cedar",
-    ghost: "text-ink hover:bg-black/5"
+    primary: "bg-cedar text-paper hover:bg-rust",
+    secondary: "border border-night/25 bg-paper text-ink hover:border-cedar hover:text-cedar",
+    ghost: "text-ink hover:bg-night/10"
   };
 
   return (
