@@ -12,7 +12,6 @@ export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const accountTarget = user?.role === "admin" ? "/admin" : "/profile";
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -45,14 +44,14 @@ export default function Login() {
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.25em] text-cedar">Already signed in</p>
             <p className="mt-2 text-sm text-black/70">
-              You’re signed in as <span className="font-bold text-ink">{user?.name ?? user?.email}</span>.
+              You&apos;re signed in as <span className="font-bold text-ink">{user?.name ?? user?.email}</span>.
             </p>
             <p className="mt-2 text-sm text-black/60">
               If you want to use a different account, switch first and then sign in again.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
-            <Button as={Link} to={accountTarget} className="w-full">
+            <Button as={Link} to="/profile" className="w-full">
               Go to account
             </Button>
             <Button className="w-full" variant="secondary" type="button" onClick={handleSwitchAccount}>

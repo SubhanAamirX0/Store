@@ -1,5 +1,6 @@
 import Button from "../components/Button.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const { user, logout } = useAuth();
@@ -13,6 +14,11 @@ export default function Profile() {
           <h2 className="mt-3 text-2xl font-black">{user?.name}</h2>
           <p className="mt-2 text-black/60">{user?.email}</p>
           <p className="mt-2 text-sm font-bold capitalize text-rust">{user?.role}</p>
+          {user?.role === "admin" ? (
+            <Button as={Link} className="mt-4" to="/admin">
+              Open admin dashboard
+            </Button>
+          ) : null}
           <Button className="mt-6" variant="secondary" onClick={logout}>Sign out</Button>
         </div>
         <div className="rounded-lg border border-black/10 bg-white p-6 shadow-sm">

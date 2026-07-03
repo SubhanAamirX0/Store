@@ -1,4 +1,4 @@
-import { Menu, Search, Shield, ShoppingBag, UserRound } from "lucide-react";
+import { Menu, Search, ShoppingBag, UserRound } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
@@ -11,8 +11,7 @@ const shopLinks = [
 ];
 
 const accountLinks = [
-  { label: "Orders", to: "/orders", auth: true },
-  { label: "Admin", to: "/admin", admin: true }
+  { label: "Orders", to: "/orders", auth: true }
 ];
 
 function navClass({ isActive }) {
@@ -25,9 +24,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { count } = useCart();
   const { user, isAuthenticated } = useAuth();
-  const accountTarget = user?.role === "admin" ? "/admin" : "/profile";
   const visibleAccountLinks = accountLinks.filter((link) => {
-    if (link.admin) return user?.role === "admin";
     if (link.auth) return isAuthenticated;
     return true;
   });
@@ -83,12 +80,7 @@ export default function Navbar() {
               </span>
             ) : null}
           </Link>
-          {user?.role === "admin" ? (
-            <Link className="focus-ring p-2 hover:text-rust" to="/admin" aria-label="Admin dashboard">
-              <Shield size={20} />
-            </Link>
-          ) : null}
-          <Link className="focus-ring p-2 hover:text-rust" to={isAuthenticated ? accountTarget : "/login"} aria-label="Profile">
+          <Link className="focus-ring p-2 hover:text-rust" to={isAuthenticated ? "/profile" : "/login"} aria-label="Profile">
             <UserRound size={20} />
           </Link>
         </div>
@@ -110,11 +102,6 @@ export default function Navbar() {
             {!isAuthenticated ? (
               <NavLink className={navClass} to="/login" onClick={() => setOpen(false)}>
                 Sign in
-              </NavLink>
-            ) : null}
-            {user?.role === "admin" ? (
-              <NavLink className={navClass} to="/admin" onClick={() => setOpen(false)}>
-                Admin dashboard
               </NavLink>
             ) : null}
           </div>
