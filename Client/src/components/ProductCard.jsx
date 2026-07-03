@@ -45,7 +45,7 @@ function ProductCard({ product }) {
   }
 
   return (
-    <article ref={cardRef} className="product-card group overflow-hidden border border-black bg-paper">
+    <article ref={cardRef} className="product-card group overflow-hidden border border-night/30 bg-paper shadow-soft">
       <Link to={`/products/${product.slug}`} className="relative block aspect-[3/4] overflow-hidden bg-mist">
         <img
           className={`h-full w-full object-cover transition duration-700 ${hoverImage ? "group-hover:scale-105 group-hover:opacity-0" : ""}`}
@@ -71,21 +71,21 @@ function ProductCard({ product }) {
           Quick View
         </div>
       </Link>
-      <div className="space-y-4 border-t border-black p-4">
+      <div className="space-y-4 border-t border-night/20 p-4">
         <div>
           <p className="text-[10px] font-black uppercase tracking-[0.24em] text-rust">{product.category}</p>
           <Link to={`/products/${product.slug}`} className="mt-2 block text-sm font-black uppercase tracking-[0.12em] hover:text-rust">
             {product.name}
           </Link>
-          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-black/55">{product.color}</p>
+          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-night/70">{product.color}</p>
         </div>
         <div className="flex items-end justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
               <span className="text-sm font-black">{formatCurrency(finalPrice)}</span>
-              {product.discount ? <span className="text-xs text-black/45 line-through">{formatCurrency(product.price)}</span> : null}
+              {product.discount ? <span className="text-xs text-night/45 line-through">{formatCurrency(product.price)}</span> : null}
             </div>
-            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-black/45">
+            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-night/55">
               {product.stock > 0 ? `${product.stock} in stock` : product.stock === 0 ? "Limited availability" : "Ready to ship"}
             </p>
           </div>

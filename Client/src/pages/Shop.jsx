@@ -28,13 +28,13 @@ export default function Shop() {
 
   return (
     <section className="mx-auto max-w-[1500px] px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mb-8 grid gap-5 border-b border-black pb-6 md:grid-cols-[1fr_auto] md:items-end">
+      <div className="mb-8 grid gap-5 border-b border-night/30 pb-6 md:grid-cols-[1fr_auto] md:items-end">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.32em] text-rust">Catalog / Drop 01</p>
           <h1 className="mt-2 text-5xl font-black uppercase leading-none sm:text-7xl">Shop Mithri</h1>
           <p className="mt-4 max-w-2xl text-sm font-semibold uppercase leading-6 tracking-[0.1em] text-black/60">Browse the latest tees and accessories.</p>
         </div>
-        <label className="flex items-center gap-2 border border-black bg-paper px-4 py-3">
+        <label className="flex items-center gap-2 border border-night/30 bg-paper px-4 py-3">
           <SlidersHorizontal size={18} />
           <select className="bg-transparent text-xs font-black uppercase tracking-[0.16em] focus:outline-none" value={sort} onChange={(event) => setSort(event.target.value)}>
             <option value="featured">Featured</option>

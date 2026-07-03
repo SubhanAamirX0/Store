@@ -49,10 +49,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section data-story className="border-b border-black bg-paper py-12">
+      <section data-story className="border-b border-night/40 bg-paper py-12">
         <div className="mx-auto grid max-w-[1500px] gap-4 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
           {storyCards.map((card) => (
-            <article data-story-card key={card.title} className="border border-black bg-paper p-5">
+            <article data-story-card key={card.title} className="border border-night/30 bg-paper p-5">
               <p className="text-xs font-black uppercase tracking-[0.28em] text-rust">{card.title}</p>
               <p className="mt-4 max-w-sm text-sm font-semibold uppercase leading-6 tracking-[0.08em] text-ink/70">{card.copy}</p>
             </article>
@@ -60,7 +60,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="grid border-b border-black bg-ink text-paper lg:grid-cols-2">
+      <section className="grid border-b border-night/40 bg-ink text-paper lg:grid-cols-2">
         <Link to="/shop" className="group relative min-h-[560px] overflow-hidden border-b border-paper/20 lg:border-b-0 lg:border-r">
           <img
             className="absolute inset-0 h-full w-full object-cover opacity-78 transition duration-700 group-hover:scale-105"
@@ -92,7 +92,7 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-[1500px] px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mb-6 flex items-end justify-between border-b border-black pb-4">
+        <div className="mb-6 flex items-end justify-between border-b border-night/30 pb-4">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.3em] text-rust">New / Featured</p>
             <h2 className="mt-2 text-3xl font-black uppercase sm:text-5xl">Latest Pieces</h2>
