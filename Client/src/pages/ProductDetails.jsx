@@ -151,7 +151,7 @@ export default function ProductDetails() {
             Add to cart
           </Button>
           <div className="grid gap-3 border border-black bg-paper p-5 text-xs font-black uppercase tracking-[0.12em] text-black/65">
-            {[`Free shipping over ${formatCurrency(100)}`, "Easy exchanges within 14 days", "Limited seasonal catalog"].map((item) => (
+            {["French terry cotton", "Easy exchanges within 14 days", "Free delivery over Rs 4000"].map((item) => (
               <p key={item} className="flex items-center gap-2">
                 <CheckCircle2 className="text-rust" size={18} />
                 {item}
