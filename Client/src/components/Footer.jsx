@@ -20,7 +20,8 @@ export default function Footer() {
       Shipping: "/shop"
     },
     Contact: {
-      "support@mithri.com": "mailto:support@mithri.com"
+      "support@mithri.com": "mailto:support@mithri.com",
+      "+1 555 010 2048": "https://wa.me/15550102048"
     }
   };
 
