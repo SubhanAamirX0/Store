@@ -24,32 +24,47 @@ export default function Home() {
       <section data-hero className="relative min-h-[calc(100vh-118px)] overflow-hidden bg-ink text-paper">
         <img
           data-hero-image
-          className="absolute inset-0 h-full w-full object-cover opacity-70"
-          src="https://images.unsplash.com/photo-1506629905607-d9f297d94b7e?auto=format&fit=crop&w=1800&q=85"
-          alt="Editorial Mithri collection"
+          className="absolute inset-0 h-full w-full object-cover opacity-35"
+          src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1800&q=85"
+          alt="Mithri fashion collection"
           fetchPriority="high"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/35 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-ink via-ink/75 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 px-4 pb-10 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[1500px]">
-            <p data-hero-line className="text-xs font-black uppercase tracking-[0.34em] text-paper/80">
-              Drop 01 / Everyday Uniform
-            </p>
-            <h1 data-hero-line className="mt-3 max-w-5xl text-6xl font-black uppercase leading-[0.9] tracking-normal sm:text-8xl lg:text-[8.5rem]">
-              Mithri
-            </h1>
-            <div data-hero-line className="mt-6 flex max-w-3xl flex-col gap-5 border-t border-paper/35 pt-5 sm:flex-row sm:items-end sm:justify-between">
-              <p className="max-w-xl text-base font-semibold uppercase leading-7 tracking-[0.12em] text-paper/86">
-                Clothing-brand merch with a sharper drop system, editorial imagery, and streetwear-ready staples.
+          <div className="mx-auto grid max-w-[1500px] gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+            <div>
+              <p data-hero-line className="text-xs font-black uppercase tracking-[0.34em] text-paper/80">
+                Drop 01 / Everyday Uniform
               </p>
-              <Button
-                as={Link}
-                to="/shop"
-                className="w-fit !bg-paper !text-ink hover:!bg-rust hover:!text-white"
-              >
-                Shop the drop <ArrowRight className="ml-2" size={17} />
-              </Button>
+              <h1 data-hero-line className="mt-3 max-w-5xl text-6xl font-black uppercase leading-[0.9] tracking-normal sm:text-8xl lg:text-[8.5rem]">
+                Mithri
+              </h1>
+              <div data-hero-line className="mt-6 flex max-w-3xl flex-col gap-5 border-t border-paper/35 pt-5 sm:flex-row sm:items-end sm:justify-between">
+                <p className="max-w-xl text-base font-semibold uppercase leading-7 tracking-[0.12em] text-paper/86">
+                  Clothing-brand merch with a sharper drop system, editorial imagery, and streetwear-ready staples.
+                </p>
+                <Button
+                  as={Link}
+                  to="/shop"
+                  className="w-fit !bg-paper !text-ink hover:!bg-rust hover:!text-white"
+                >
+                  Shop the drop <ArrowRight className="ml-2" size={17} />
+                </Button>
+              </div>
+            </div>
+            <div className="hidden justify-self-end lg:block">
+              <div className="w-[min(38vw,520px)] overflow-hidden rounded-[2rem] border border-paper/25 bg-paper/10 p-3 shadow-[0_30px_90px_rgba(0,0,0,0.35)] backdrop-blur">
+                <div className="overflow-hidden rounded-[1.5rem] border border-paper/15 bg-ink/15">
+                  <img
+                    src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=85"
+                    alt="Mithri collection poster"
+                    className="h-full w-full object-cover"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
