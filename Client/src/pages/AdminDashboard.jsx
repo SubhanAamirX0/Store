@@ -1,5 +1,6 @@
 import { GripVertical, ImagePlus, PackagePlus, Percent, RefreshCw, Tags, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import Button from "../components/Button.jsx";
 import Input from "../components/Input.jsx";
 import { products as fallbackProducts } from "../data/products.js";
@@ -19,8 +20,6 @@ const emptyProduct = {
   colors: "",
   images: [""]
 };
-
-const orderStatuses = ["pending", "paid", "processing", "shipped", "delivered", "cancelled"];
 
 function slugify(value) {
   return value
@@ -243,21 +242,6 @@ export default function AdminDashboard() {
     }
   }
 
-  async function updateOrderStatus(order, status) {
-    setMessage("");
-    try {
-      await apiRequest(`/orders/${order._id}/status`, {
-        method: "PATCH",
-        auth: true,
-        body: JSON.stringify({ status, paymentStatus: status === "paid" ? "paid" : order.paymentStatus })
-      });
-      await loadDashboard();
-      setMessage("Order status updated.");
-    } catch (err) {
-      setMessage(err.message);
-    }
-  }
-
   const stats = [
     { label: "Active products", value: summary?.products ?? activeProducts.length },
     { label: "Catalogs", value: summary?.categories ?? categories.length },
@@ -460,28 +444,15 @@ export default function AdminDashboard() {
           <div className="rounded-lg border border-black/10 bg-white p-6 shadow-sm">
             <div className="mb-5 flex items-center gap-3">
               <Percent className="text-rust" />
-              <h2 className="text-xl font-black">Orders</h2>
+              <h2 className="text-xl font-black">Orders received</h2>
             </div>
             <div className="space-y-3">
-              {orders.length ? orders.slice(0, 8).map((order) => (
-                <div key={order._id} className="rounded-md border border-black/10 p-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="font-bold">{order.user?.name ?? "Customer"}</p>
-                      <p className="text-sm text-black/55">{formatCurrency(order.total)} / {order.items.length} item(s)</p>
-                    </div>
-                    <select
-                      className="focus-ring rounded-md border border-black/15 bg-white px-2 py-1 text-sm font-semibold"
-                      value={order.status}
-                      onChange={(event) => updateOrderStatus(order, event.target.value)}
-                    >
-                      {orderStatuses.map((status) => (
-                        <option key={status} value={status}>{status}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              )) : <p className="text-sm text-black/55">No orders yet.</p>}
+              <p className="text-sm text-black/55">
+                {orders.length ? `${orders.length} orders received.` : "No orders yet."}
+              </p>
+              <Button as={Link} to="/admin/orders" className="w-full">
+                Open orders received
+              </Button>
             </div>
           </div>
         </aside>

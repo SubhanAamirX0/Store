@@ -10,10 +10,6 @@ const shopLinks = [
   { label: "Accessories", to: "/shop?category=Accessories", preload: () => import("../pages/Shop.jsx") }
 ];
 
-const accountLinks = [
-  { label: "Orders", to: "/orders", auth: true }
-];
-
 function navClass({ isActive }) {
   return `rounded-sm px-3 py-2 text-[11px] font-black uppercase tracking-[0.16em] transition ${
     isActive ? "text-rust" : "text-ink hover:text-rust"
@@ -24,6 +20,9 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { count } = useCart();
   const { user, isAuthenticated } = useAuth();
+  const accountLinks = [
+    { label: "Orders", to: user?.role === "admin" ? "/admin/orders" : "/orders", auth: true }
+  ];
   const visibleAccountLinks = accountLinks.filter((link) => {
     if (link.auth) return isAuthenticated;
     return true;

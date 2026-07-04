@@ -85,9 +85,6 @@ export default function Login() {
           <p className="mt-5 text-sm text-black/60">
             New here? <Link className="font-bold text-rust hover:text-cedar" to="/register">Create an account</Link>
           </p>
-          <p className="mt-2 text-sm text-black/60">
-            Admin? <Link className="font-bold text-rust hover:text-cedar" to="/admin-login">Sign in as admin</Link>
-          </p>
         </>
       )}
     </section>
