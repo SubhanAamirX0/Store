@@ -18,6 +18,9 @@ export default function Footer() {
     Studio: {
       "Drop Notes": "/shop",
       Shipping: "/shop"
+    },
+    Contact: {
+      "support@mithri.com": "mailto:support@mithri.com"
     }
   };
 
