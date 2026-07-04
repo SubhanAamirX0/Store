@@ -35,8 +35,8 @@ export default function ProductDetails() {
   }
 
   return (
-    <section className="mx-auto max-w-[1500px] px-4 py-10 sm:px-6 lg:px-8">
-      <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">
+    <section className="mx-auto max-w-[1500px] px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <div className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8">
         <div className="relative overflow-hidden border border-black bg-mist">
           <div
             ref={galleryRef}
@@ -81,47 +81,47 @@ export default function ProductDetails() {
             ))}
           </div>
           {images.length > 1 ? (
-            <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-3">
+            <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2 sm:px-3">
               <button
                 type="button"
-                className="pointer-events-auto focus-ring inline-flex h-10 w-10 items-center justify-center rounded-full bg-paper/85 text-ink shadow-sm backdrop-blur hover:bg-paper"
+                className="pointer-events-auto focus-ring inline-flex h-9 w-9 items-center justify-center rounded-full bg-paper/85 text-ink shadow-sm backdrop-blur hover:bg-paper sm:h-10 sm:w-10"
                 aria-label="Previous image"
                 onClick={() => scrollToImage(activeImage - 1)}
               >
-                <ChevronLeft size={18} />
+                <ChevronLeft size={16} className="sm:size-[18px]" />
               </button>
               <button
                 type="button"
-                className="pointer-events-auto focus-ring inline-flex h-10 w-10 items-center justify-center rounded-full bg-paper/85 text-ink shadow-sm backdrop-blur hover:bg-paper"
+                className="pointer-events-auto focus-ring inline-flex h-9 w-9 items-center justify-center rounded-full bg-paper/85 text-ink shadow-sm backdrop-blur hover:bg-paper sm:h-10 sm:w-10"
                 aria-label="Next image"
                 onClick={() => scrollToImage(activeImage + 1)}
               >
-                <ChevronRight size={18} />
+                <ChevronRight size={16} className="sm:size-[18px]" />
               </button>
             </div>
           ) : null}
         </div>
-        <div className="space-y-7 border border-black bg-paper p-5 sm:p-8">
+        <div className="space-y-5 border border-black bg-paper p-4 sm:space-y-7 sm:p-8">
           <Link className="text-xs font-black uppercase tracking-[0.22em] text-rust hover:text-ink" to="/shop">
             Back to shop
           </Link>
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-rust">{product.category}</p>
-            <h1 className="mt-3 text-5xl font-black uppercase leading-none sm:text-7xl">{product.name}</h1>
-            <p className="mt-5 max-w-xl text-sm font-semibold uppercase leading-7 tracking-[0.08em] text-black/60">{product.description}</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.26em] text-rust sm:text-xs sm:tracking-[0.3em]">{product.category}</p>
+            <h1 className="mt-2 text-4xl font-black uppercase leading-none sm:mt-3 sm:text-7xl">{product.name}</h1>
+            <p className="mt-4 max-w-xl text-xs font-semibold uppercase leading-6 tracking-[0.06em] text-black/60 sm:mt-5 sm:text-sm sm:leading-7 sm:tracking-[0.08em]">{product.description}</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-3xl font-black uppercase">{formatCurrency(getFinalPrice(product))}</span>
-            {product.discount ? <span className="text-lg text-black/40 line-through">{formatCurrency(product.price)}</span> : null}
-            {product.discount ? <span className="bg-rust px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-white">{product.discount}% off</span> : null}
+            <span className="text-2xl font-black uppercase sm:text-3xl">{formatCurrency(getFinalPrice(product))}</span>
+            {product.discount ? <span className="text-sm text-black/40 line-through sm:text-lg">{formatCurrency(product.price)}</span> : null}
+            {product.discount ? <span className="bg-rust px-2 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-white sm:px-3 sm:text-xs sm:tracking-[0.18em]">{product.discount}% off</span> : null}
           </div>
           <div>
-            <p className="mb-3 text-xs font-black uppercase tracking-[0.2em]">Choose size</p>
+            <p className="mb-2 text-[10px] font-black uppercase tracking-[0.18em] sm:mb-3 sm:text-xs sm:tracking-[0.2em]">Choose size</p>
             <div className="flex flex-wrap gap-2">
               {product.sizes.map((item) => (
                 <button
                   key={item}
-                  className={`focus-ring min-w-12 border px-4 py-3 text-xs font-black uppercase tracking-[0.16em] ${
+                  className={`focus-ring min-w-10 border px-3 py-2.5 text-[11px] font-black uppercase tracking-[0.14em] sm:min-w-12 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.16em] ${
                     size === item ? "border-ink bg-ink text-paper" : "border-black bg-paper"
                   }`}
                   onClick={() => setSize(item)}
@@ -132,12 +132,12 @@ export default function ProductDetails() {
             </div>
           </div>
           <div>
-            <p className="mb-3 text-xs font-black uppercase tracking-[0.2em]">Choose color</p>
+            <p className="mb-2 text-[10px] font-black uppercase tracking-[0.18em] sm:mb-3 sm:text-xs sm:tracking-[0.2em]">Choose color</p>
             <div className="flex flex-wrap gap-2">
               {(product.colors ?? [product.color]).map((item) => (
                 <button
                   key={item}
-                  className={`focus-ring min-w-12 border px-4 py-3 text-xs font-black uppercase tracking-[0.16em] ${
+                  className={`focus-ring min-w-10 border px-3 py-2.5 text-[11px] font-black uppercase tracking-[0.14em] sm:min-w-12 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.16em] ${
                     color === item ? "border-rust bg-rust text-white" : "border-black bg-paper"
                   }`}
                   onClick={() => setColor(item)}
@@ -147,13 +147,13 @@ export default function ProductDetails() {
               ))}
             </div>
           </div>
-          <Button className="w-full py-4 uppercase tracking-[0.2em]" onClick={() => addItem(product, size, color)}>
+          <Button className="w-full py-3 uppercase tracking-[0.18em] sm:py-4 sm:tracking-[0.2em]" onClick={() => addItem(product, size, color)}>
             Add to cart
           </Button>
-          <div className="grid gap-3 border border-black bg-paper p-5 text-xs font-black uppercase tracking-[0.12em] text-black/65">
+          <div className="grid gap-2 border border-black bg-paper p-4 text-[10px] font-black uppercase tracking-[0.1em] text-black/65 sm:gap-3 sm:p-5 sm:text-xs sm:tracking-[0.12em]">
             {["French terry cotton", "Easy exchanges within 14 days", "Free shipping over Rs 4000"].map((item) => (
               <p key={item} className="flex items-center gap-2">
-                <CheckCircle2 className="text-rust" size={18} />
+                <CheckCircle2 className="text-rust" size={16} />
                 {item}
               </p>
             ))}
@@ -161,8 +161,8 @@ export default function ProductDetails() {
         </div>
       </div>
       {related.length ? (
-        <div className="mt-16">
-          <h2 className="mb-6 border-b border-black pb-4 text-3xl font-black uppercase">Related pieces</h2>
+        <div className="mt-12 sm:mt-16">
+          <h2 className="mb-5 border-b border-black pb-4 text-2xl font-black uppercase sm:mb-6 sm:text-3xl">Related pieces</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((item) => (
               <ProductCard key={item.id} product={item} />

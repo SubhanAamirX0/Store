@@ -21,7 +21,7 @@ export default function Footer() {
     },
     Contact: {
       "support@mithri.com": "mailto:support@mithri.com",
-      "+1 555 010 2048": "https://wa.me/15550102048"
+      "+92 3280298548": "https://wa.me/923280298548"
     }
   };
 

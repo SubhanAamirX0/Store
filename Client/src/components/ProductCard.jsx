@@ -150,25 +150,25 @@ function ProductCard({ product }) {
         <div className="absolute left-3 top-3 bg-paper px-2 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-ink">
           New
         </div>
-        <div className="absolute inset-x-0 bottom-0 translate-y-full bg-ink px-4 py-3 text-center text-[11px] font-black uppercase tracking-[0.24em] text-paper transition duration-300 group-hover:translate-y-0">
+        <div className="absolute inset-x-0 bottom-0 translate-y-full bg-ink px-4 py-2.5 text-center text-[11px] font-black uppercase tracking-[0.24em] text-paper transition duration-300 group-hover:translate-y-0">
           Quick View
         </div>
       </Link>
-      <div className="space-y-4 border-t border-night/15 p-4">
+      <div className="space-y-3 border-t border-night/15 p-3.5 sm:space-y-4 sm:p-4">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.24em] text-rust">{product.category}</p>
-          <Link to={`/products/${product.slug}`} className="mt-2 block text-sm font-black uppercase tracking-[0.12em] hover:text-rust">
+          <p className="text-[9px] font-black uppercase tracking-[0.22em] text-rust sm:text-[10px] sm:tracking-[0.24em]">{product.category}</p>
+          <Link to={`/products/${product.slug}`} className="mt-1.5 block text-[13px] font-black uppercase tracking-[0.1em] hover:text-rust sm:mt-2 sm:text-sm sm:tracking-[0.12em]">
             {product.name}
           </Link>
-          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-night/70">{product.color}</p>
+          <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-night/70 sm:text-xs sm:tracking-[0.14em]">{product.color}</p>
         </div>
         <div className="flex items-end justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-black">{formatCurrency(finalPrice)}</span>
-              {product.discount ? <span className="text-xs text-night/45 line-through">{formatCurrency(product.price)}</span> : null}
+              <span className="text-[13px] font-black sm:text-sm">{formatCurrency(finalPrice)}</span>
+              {product.discount ? <span className="text-[10px] text-night/45 line-through sm:text-xs">{formatCurrency(product.price)}</span> : null}
             </div>
-            <p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-night/55">
+            <p className="mt-1 text-[9px] font-black uppercase tracking-[0.14em] text-night/55 sm:text-[10px] sm:tracking-[0.16em]">
               {product.stock > 0 ? `${product.stock} in stock` : product.stock === 0 ? "Limited availability" : "Ready to ship"}
             </p>
           </div>

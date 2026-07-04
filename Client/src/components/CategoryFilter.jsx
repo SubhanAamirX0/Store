@@ -6,7 +6,7 @@ export default function CategoryFilter({ activeCategory, onChange, categories = 
       {categories.map((category) => (
         <button
           key={category}
-          className={`focus-ring whitespace-nowrap border px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] transition hover:-translate-y-0.5 active:scale-95 ${
+          className={`focus-ring whitespace-nowrap border px-3 py-2 text-[10px] font-black uppercase tracking-[0.16em] transition hover:-translate-y-0.5 active:scale-95 sm:px-4 sm:py-2 sm:text-[11px] sm:tracking-[0.2em] ${
             activeCategory === category
               ? "border-cedar bg-cedar text-paper"
               : "border-night/25 bg-paper text-ink hover:bg-cedar hover:text-paper"

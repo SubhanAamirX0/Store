@@ -32,15 +32,15 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-night/35 bg-paper/92 backdrop-blur">
-      <div className="border-b border-night/35 bg-ink px-4 py-2 text-center text-[10px] font-black uppercase tracking-[0.18em] text-paper sm:text-[11px] sm:tracking-[0.24em]">
+      <div className="border-b border-night/35 bg-ink px-3 py-1.5 text-center text-[9px] font-black uppercase tracking-[0.14em] text-paper sm:px-4 sm:py-2 sm:text-[11px] sm:tracking-[0.24em]">
         New Drop Live / Free shipping over Rs 4000 / Limited quantities
       </div>
-      <nav className="mx-auto grid max-w-[1500px] grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <nav className="mx-auto grid max-w-[1500px] grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-2.5 sm:px-6 sm:py-3 lg:px-8">
         <div className="flex items-center gap-3">
           <Button className="px-2 lg:hidden" variant="ghost" aria-label="Menu" onClick={() => setOpen((value) => !value)}>
             <Menu size={22} />
           </Button>
-          <Link to="/" className="text-2xl font-black uppercase tracking-[0.18em] sm:text-3xl">
+          <Link to="/" className="text-xl font-black uppercase tracking-[0.16em] sm:text-3xl sm:tracking-[0.18em]">
             Mithri
           </Link>
         </div>
