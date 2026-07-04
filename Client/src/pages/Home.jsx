@@ -3,7 +3,8 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button.jsx";
 import ProductCard from "../components/ProductCard.jsx";
-import { products } from "../data/products.js";
+import { products as fallbackProducts } from "../data/products.js";
+import { useCatalog } from "../hooks/useCatalog.js";
 import { useGsapStory } from "../hooks/useGsapStory.js";
 
 const storyCards = [
@@ -14,7 +15,8 @@ const storyCards = [
 
 export default function Home() {
   const scopeRef = useRef(null);
-  const featured = products.slice(0, 4);
+  const { products } = useCatalog();
+  const featured = (products.length ? products : fallbackProducts).slice(0, 4);
   useGsapStory(scopeRef);
 
   return (
